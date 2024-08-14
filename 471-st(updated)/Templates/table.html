@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display JSON Data in Table</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url(https://cdn.wallpapersafari.com/41/41/vIdSZT.jpg);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            color: #fff; /* Change text color to black */
+        }
+        
+        h2 {
+            margin-top: 50px;
+            font-size: 50px;
+            text-align: center;
+            animation: textAnimation 2s ease infinite alternate;
+        }
+        
+        @keyframes textAnimation {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 75%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            color: #fff; /* Change text color to black */
+        }
+        
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+        
+        th {
+            background-color: rgba(113, 143, 241, 0.5);
+            color: #000; /* Change text color to black */
+        }
+        
+        tr:nth-child(even) {
+            background-color: rgba(113, 143, 241, 0.8);
+            color: #000;
+        }
+        
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(1.02);
+            transition: transform 0.2s ease-in-out;
+            color: #000;
+        }
+        
+    </style>
+</head>
+<body>
+    <h2>User Data</h2>
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Chat History</th>
+            </tr>
+        </thead>
+        <tbody id="userData">
+        </tbody>
+    </table>
+    <script type="text/javascript" >
+        // Function to convert JSON data to HTML table
+        function convertJsonToTable(jsonData) {
+    // Get the table body element
+        let tableBody = document.getElementById("userData");
+
+    // Loop through the JSON data
+        for (const [username, userData] of Object.entries(jsonData)) {
+            // Create a new row
+            let row = tableBody.insertRow();
+
+            // Insert cells into the row
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+
+            // Set the cell values
+            cell1.textContent = username;
+            cell2.textContent = userData.password;
+            cell3.textContent = JSON.stringify(userData.chathistory);
+        }
+    }
+
+// Fetch JSON data and convert to table
+        fetch('users.json')
+            .then(response => response.json())
+            .then(data => convertJsonToTable(data))
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(https://cdn.wallpapersafari.com/41/41/vIdSZT.jpg);
+            background-size: cover;
+            color: #fff; 
+        }    
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }    
+        
+        #chat-container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.15); /* Add opacity to the container */
+            padding: 50px;
+            border-radius: 10px;
+            width: 80%;
+            margin: 100px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #chat-display {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        #user-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        #send-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(6, 158, 247, 0.6);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #send-btn:hover {
+            background-color: rgba(6, 89, 138, 0.5);
+        }
+        .message {
+            margin-bottom: 30px;
+        }
+        .user-message {
+            text-align: right;
+            color: #007bff;
+        }
+        .ai-message {
+            text-align: left;
+            color: #333;
+        }
+    </style>
+</head><body>
+    <div id="chat-container">
+        <h2 align="center">AI Chat</h2>
+        <!-- Add this inside the chat-container div, before the chat-display div -->
+<form action="/chat" method="post">
+    <label for="scrape-url">Scrape URL:</label>
+    <input type="text" id="scrape-url" name="scrape-url" placeholder="Enter URL to scrape">
+    <button type="submit">Scrape</button>
+</form>
+<div id="scrape-results">
+    {% for item in scraped_data %}
+        <p>Text: {{ item.Text }}</p>
+        <p>Link: {{ item.Links }}</p>
+        <p>Image: {{ item.Images }}</p>
+        <hr>
+    {% endfor %}
+</div>
+        <div id="chat-display">
+            {% for message in messages %}
+                <p class="{{ message.type }}">{{ message.text }}</p>
+            {% endfor %}
+        </div>
+        <form action="/chat" method="post">
+            <textarea id="user-input" name="message" placeholder="Type your message here..."></textarea>
+            <button id="send-btn" type="submit">Send</button>
+        </form>
+        <form action="/logout" method="post">
+            <button type="submit" id="logout-btn">Logout</button>
+        </form>
+        
+    </div>
+</body>
+</html>
